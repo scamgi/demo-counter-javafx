@@ -13,12 +13,12 @@ public class CounterController {
         this.view = view;
 
         // Bind button actions
-        view.getIncrementButton().setOnAction(e -> {
+        view.getIncrementButton().setOnAction(_ -> {
             model.increment();
             updateView();
         });
 
-        view.getDecrementButton().setOnAction(e -> {
+        view.getDecrementButton().setOnAction(_ -> {
             model.decrement();
             updateView();
         });
@@ -31,5 +31,8 @@ public class CounterController {
     public void start(Stage stage) {
         updateView();
         view.show(stage);
+
+        // Add shutdown hook to close socket
+        stage.setOnCloseRequest(_ -> model.close());
     }
 }
