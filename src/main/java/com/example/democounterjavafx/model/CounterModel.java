@@ -1,5 +1,7 @@
 package com.example.democounterjavafx.model;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.io.*;
 import java.net.*;
 
@@ -10,7 +12,12 @@ public class CounterModel {
 
     public CounterModel() {
         try {
-            socket = new Socket("localhost", 12345);
+            // loads .env file
+            Dotenv dotenv = Dotenv.load();
+            String serverAddress = dotenv.get("SERVER_IP");
+            int port = 12345;
+
+            socket = new Socket(serverAddress, port);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException e) {
